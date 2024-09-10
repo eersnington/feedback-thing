@@ -16,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 interface PricingTierProps {
   name: string;
@@ -157,8 +158,8 @@ const PricingPage: React.FC = () => {
             Our team is here to help. Contact us for a personalized
             recommendation.
           </p>
-          <Button className="bg-violet-600 hover:bg-violet-700">
-            Contact Sales
+          <Button className="bg-violet-600 hover:bg-violet-700" asChild>
+            <Link href="mailto:sreeaadhi07@gmail.com">Talk to Sales</Link>
           </Button>
         </div>
 
