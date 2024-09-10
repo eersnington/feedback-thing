@@ -4,11 +4,11 @@ import { MessageSquare, Bug, Camera } from "lucide-react";
 export function FeaturesSection() {
   return (
     <section
-      className="w-full bg-gray-100 py-12 md:py-24 lg:py-32"
+      className="w-full bg-gradient-to-b from-violet-100 to-white py-12 md:py-24"
       id="features"
     >
       <div className="container px-4 md:px-6">
-        <h2 className="mb-8 text-center text-3xl font-bold tracking-tighter sm:text-4xl">
+        <h2 className="mb-8 text-center text-6xl font-bold tracking-tighter sm:text-4xl">
           Key Features
         </h2>
         <div className="grid gap-6 lg:grid-cols-3">
@@ -45,13 +45,13 @@ function FeatureCard({
   return (
     <Card className="bg-white shadow-lg">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-lg">
           {icon}
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-500">{description}</p>
+        <p className="text-lg text-gray-500">{description}</p>
       </CardContent>
     </Card>
   );
