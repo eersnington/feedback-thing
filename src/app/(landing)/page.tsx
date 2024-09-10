@@ -28,11 +28,11 @@ export default function HomePage() {
 
       <div className="container mx-auto flex flex-1 flex-col items-center justify-center px-4 text-center">
         <h2 className="mb-6 text-5xl font-bold text-gray-800">
-          Revolutionize Your Workflow
+          Streamline Feedback and Bug Reporting with FeedbackThing
         </h2>
         <p className="mb-8 max-w-2xl text-xl text-gray-600">
-          Our SaaS solution empowers teams to collaborate, analyze, and innovate
-          like never before. Experience the future of productivity today.
+          Let your users capture screenshots, report bugs, and share feedback
+          effortlessly—all from a single button integrated into your dashboard.
         </p>
         <Link
           href="/dashboard"
