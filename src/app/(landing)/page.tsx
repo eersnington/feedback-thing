@@ -74,7 +74,7 @@ export default function LandingPage() {
               <div className="flex items-center justify-center">
                 <div className="relative h-[300px] w-[450px] overflow-hidden rounded-lg bg-gray-200 shadow-lg">
                   <Image
-                    src="/placeholder.svg?height=300&width=450"
+                    src="/placeholder.svg"
                     alt="FeedbackThing Dashboard"
                     layout="fill"
                     objectFit="cover"
