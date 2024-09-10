@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col bg-white text-gray-800">
       <nav className="container mx-auto flex items-center justify-between p-4">
-        <h1 className="text-2xl font-bold text-purple-600">T3SaaS</h1>
+        <h1 className="text-2xl font-bold text-purple-600">FeedbackThing</h1>
         <div className="space-x-4">
           <Link href="/sign-in" className="text-gray-600 hover:text-purple-600">
             Login
