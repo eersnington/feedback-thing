@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function TermsOfService() {
@@ -7,9 +8,17 @@ export default function TermsOfService() {
         <h1 className="mb-6 text-3xl font-bold">Terms of Service</h1>
         <div className="prose prose-gray max-w-none">
           <p className="mb-4">
-            Welcome to FeedbackThing. These Terms of Service govern your access
-            to and use of FeedbackThing&apos;s services, including our website,
-            mobile applications, and any other software or services offered by
+            FeedbackThing, a product owned and operated by{" "}
+            <Link
+              href={"https://sageai.live/"}
+              target="_blank"
+              className="underline"
+            >
+              Sage AI
+            </Link>
+            . These Terms of Service govern your access to and use of
+            FeedbackThing&apos;s services, including our website, mobile
+            applications, and any other software or services offered by
             FeedbackThing in connection to any of the foregoing services. Please
             read these Terms carefully, and contact us if you have any
             questions. By accessing or using our Services, you agree to be bound
@@ -184,7 +193,7 @@ export default function TermsOfService() {
           <p className="mb-4">
             If you have any questions about these Terms, please contact us at:
           </p>
-          <p className="mb-4">Email: sreeaadhi07@gmail.com</p>
+          <p className="mb-4">Email: sreeaadhi07@icloud.com</p>
           <p className="mb-4">
             FeedbackThing is represented by Sree Narayanan (x.com/eersnington).
           </p>

@@ -40,8 +40,8 @@ export default function RefundPolicy() {
           <p className="mb-4">To request a refund:</p>
           <ol className="mb-4 list-decimal pl-8">
             <li>
-              Contact our support team at sreeaadhi07@gmail.com within the 7-day
-              refund period.
+              Contact our support team at sreeaadhi07@icloud.com within the
+              7-day refund period.
             </li>
             <li>
               Provide your account information and the reason for requesting a
@@ -117,7 +117,7 @@ export default function RefundPolicy() {
             If you have any questions about this Refund Policy or would like to
             request a refund, please contact us:
           </p>
-          <p className="mb-4">By email: sreeaadhi07@gmail.com</p>
+          <p className="mb-4">By email: sreeaadhi07@icloud.com</p>
           <p className="mb-4">
             FeedbackThing is represented by Sree Narayanan (x.com/eersnington).
           </p>

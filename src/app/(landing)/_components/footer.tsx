@@ -37,7 +37,7 @@ export function Footer() {
           </Link>
           <Link
             className="text-sm text-gray-500 hover:text-gray-900"
-            href="mailto:sreeaadhi07@gmail.com"
+            href="mailto:sreeaadhi07@icloud.com"
           >
             Contact Us
           </Link>
