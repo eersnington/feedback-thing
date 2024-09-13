@@ -1,4 +1,4 @@
-// widget.ts
+// public/feedback-widget.js
 import FeedbackWidget from "@/components/feedback-widget";
 import React from "react";
 import { createRoot } from "react-dom/client";
