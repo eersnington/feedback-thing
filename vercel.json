@@ -5,7 +5,7 @@
   "framework": "nextjs",
   "outputDirectory": ".next",
   "functions": {
-    "api/feedback-widget.ts": {
+    "api/feedback-widget/route.ts": {
       "memory": 1024,
       "maxDuration": 10
     }
