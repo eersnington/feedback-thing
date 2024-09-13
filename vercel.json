@@ -4,12 +4,6 @@
   "installCommand": "pnpm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "functions": {
-    "api/feedback-widget/route.ts": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "routes": [
     {
       "src": "/feedback-widget.js",
