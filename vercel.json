@@ -1,0 +1,20 @@
+{
+  "buildCommand": "pnpm run build",
+  "devCommand": "pnpm run dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "functions": {
+    "api/feedback-widget.ts": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/feedback-widget.js",
+      "headers": { "Cache-Control": "max-age=300, s-maxage=31536000" },
+      "continue": true
+    }
+  ]
+}

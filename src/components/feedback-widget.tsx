@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Camera, Star } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type FeedbackType = "feature" | "bug" | "question" | "other";
 
@@ -29,6 +30,10 @@ interface FeedbackTypeOption {
   color: string;
 }
 
+interface FeedbackWidgetProps {
+  projectId: string | null;
+}
+
 const feedbackTypes: FeedbackTypeOption[] = [
   { value: "feature", label: "Feature", color: "bg-red-300" },
   { value: "bug", label: "Bug", color: "bg-yellow-500" },
@@ -36,23 +41,50 @@ const feedbackTypes: FeedbackTypeOption[] = [
   { value: "other", label: "Other", color: "bg-teal-400" },
 ];
 
-export default function FeedbackModal(): React.ReactElement {
+export default function FeedbackWidget({
+  projectId,
+}: FeedbackWidgetProps): React.ReactElement {
   const [feedbackType, setFeedbackType] = useState<FeedbackType | "">("");
   const [rating, setRating] = useState<number>(0);
   const [feedback, setFeedback] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ feedbackType, rating, feedback });
-    // Here you would typically send the data to your backend
-    setIsOpen(false);
+    if (!projectId) {
+      console.error("Project ID is missing");
+      return;
+    }
+    const response = await fetch("/api/submit-feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ projectId, feedbackType, rating, feedback }),
+    });
+    if (response.ok) {
+      setIsOpen(false);
+      // Show success message
+    } else {
+      // Show error message
+    }
   };
 
   const handleScreenshot = () => {
     // Implement screenshot functionality here
     console.log("Taking screenshot...");
   };
+
+  if (projectId === null) {
+    return (
+      <Alert variant="destructive">
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>
+          Unable to load the feedback widget. Project ID is missing.
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

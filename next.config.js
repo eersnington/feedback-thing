@@ -6,14 +6,18 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.entry = {
-        ...config.entry,
-        "widget-bundle": "./src/app/widget-bundle.tsx",
-      };
-    }
-    return config;
+  async headers() {
+    return [
+      {
+        source: "/api/feedback-widget",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+    ];
   },
 };
 
