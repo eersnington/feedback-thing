@@ -5,7 +5,7 @@
   "framework": "nextjs",
   "outputDirectory": ".next",
   "functions": {
-    "api/feedback-widget/route.ts": {
+    "api/feedback-widget": {
       "memory": 1024,
       "maxDuration": 10
     }
@@ -13,7 +13,7 @@
   "routes": [
     {
       "src": "/api/feedback-widget",
-      "dest": "api/feedback-widget.js",
+      "dest": "/api/feedback-widget.js",
       "headers": {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Access-Control-Allow-Origin": "*",
