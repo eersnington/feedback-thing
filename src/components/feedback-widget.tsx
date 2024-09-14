@@ -36,9 +36,9 @@ interface FeedbackWidgetProps {
 
 const feedbackTypes: FeedbackTypeOption[] = [
   { value: "feature", label: "Feature", color: "bg-red-300" },
-  { value: "bug", label: "Bug", color: "bg-yellow-500" },
+  { value: "bug", label: "Bug", color: "bg-yellow-300" },
   { value: "question", label: "General Question", color: "bg-blue-400" },
-  { value: "other", label: "Other", color: "bg-teal-400" },
+  { value: "other", label: "Other", color: "bg-teal-300" },
 ];
 
 export default function FeedbackWidget({
@@ -89,7 +89,7 @@ export default function FeedbackWidget({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="fixed right-1 top-1/2 origin-right -translate-y-1/2 rotate-[-90deg] bg-violet-500 text-white hover:bg-violet-600">
+        <Button className="fixed -right-10 bottom-1/2 origin-bottom-left rotate-[-90deg] bg-violet-500 px-4 py-2 text-white hover:bg-violet-600">
           Feedback
         </Button>
       </DialogTrigger>
