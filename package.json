@@ -12,7 +12,7 @@
     "dev": "next dev --turbo",
     "lint": "next lint",
     "start": "next start",
-    "build:widget": "pnpm exec esbuild src/components/feedback-widget.tsx --bundle --minify --outfile=public/feedback-widget.js --format=iife --global-name=FeedbackThingWidget"
+    "build:widget": "pnpm exec esbuild src/app/feedback-widget.tsx --bundle --minify --outfile=public/feedback-widget-bundle.js --format=iife --global-name=FeedbackWidget"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.4.1",

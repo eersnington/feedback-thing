@@ -1,6 +1,9 @@
+//src/app/feedback-widget.tsx
+
 "use client";
 
 import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -196,3 +199,10 @@ export default function FeedbackWidget({
     </Dialog>
   );
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+(window as any).React = React;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+(window as any).ReactDOM = ReactDOM;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+(window as any).FeedbackWidget = FeedbackWidget;

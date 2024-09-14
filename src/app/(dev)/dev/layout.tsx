@@ -1,4 +1,4 @@
-import FeedbackWidget from "@/components/feedback-widget";
+import FeedbackWidget from "@/app/feedback-widget";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

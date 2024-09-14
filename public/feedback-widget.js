@@ -1,59 +1,53 @@
 // @ts-nocheck
 (function () {
-  // Dynamically load React and ReactDOM from CDN
-  function loadScript(src, onLoad) {
+  const loadScript = (src, callback) => {
     const script = document.createElement("script");
     script.src = src;
-    script.async = true;
-    script.onload = onLoad;
+    script.onload = callback;
     document.head.appendChild(script);
-  }
+  };
 
-  // Load React and ReactDOM from CDN if they are not present
-  if (typeof React === "undefined") {
-    loadScript("https://unpkg.com/react@18/umd/react.production.min.js", () => {
+  const ensureReactLoaded = (callback) => {
+    if (window.React && window.ReactDOM) {
+      callback();
+    } else {
       loadScript(
-        "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js",
-        initializeWidget,
+        "https://unpkg.com/react@18/umd/react.production.min.js",
+        () => {
+          loadScript(
+            "https://unpkg.com/react-dom@18/umd/react-dom.client.min.js",
+            callback,
+          );
+        },
       );
-    });
-  } else {
-    initializeWidget();
-  }
+    }
+  };
 
-  // Function to initialize and mount the React component
-  function initializeWidget() {
-    // Check if the custom element is already defined to avoid redefinition
-    if (!customElements.get("feedbackthing-widget")) {
-      class FeedbackThingWidget extends HTMLElement {
-        constructor() {
-          super();
-          this.attachShadow({ mode: "open" });
-        }
-
-        connectedCallback() {
-          const projectId = this.getAttribute("project-id");
-          const mountPoint = document.createElement("div");
-
-          if (this.shadowRoot) {
-            this.shadowRoot.appendChild(mountPoint);
-
-            // Dynamically create and render the FeedbackWidget
-            const root = ReactDOM.createRoot(mountPoint);
-            root.render(
-              React.createElement(
-                React.StrictMode,
-                null,
-                React.createElement(window.FeedbackWidget, {
-                  projectId: projectId,
-                }),
-              ),
-            );
-          }
-        }
+  class FeedbackThingWidget extends HTMLElement {
+    connectedCallback() {
+      const projectId = this.getAttribute("project-id");
+      if (!projectId) {
+        console.error("Project ID is required for the Feedback Widget.");
+        return;
       }
 
-      customElements.define("feedbackthing-widget", FeedbackThingWidget);
+      const container = document.createElement("div");
+      this.appendChild(container);
+
+      ensureReactLoaded(() => {
+        loadScript("http://localhost:3000/feedback-widget-bundle.js", () => {
+          const FeedbackWidget = window.FeedbackWidget;
+          if (FeedbackWidget) {
+            ReactDOM.createRoot(container).render(
+              React.createElement(FeedbackWidget, { projectId }),
+            );
+          } else {
+            console.error("FeedbackWidget component not found.");
+          }
+        });
+      });
     }
   }
+
+  customElements.define("feedbackthing-widget", FeedbackThingWidget);
 })();
