@@ -15,11 +15,7 @@ export async function GET(req: Request) {
   console.log(`FeedbackWidget: Request received from domain: ${requestDomain}`);
 
   // Change this line to point to the correct file
-  const filePath = path.join(
-    process.cwd(),
-    "public",
-    "feedback-widget-bundle.js",
-  );
+  const filePath = path.join(process.cwd(), "public", "widget.umd.js");
 
   try {
     const fileContents = await fs.readFile(filePath, "utf8");

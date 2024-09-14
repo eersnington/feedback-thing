@@ -20,7 +20,7 @@ const config = {
         ],
       },
       {
-        source: "/feedback-widget-bundle.js",
+        source: "/widget.umd.js",
         headers: [
           { key: "Access-Control-Allow-Origin", value: "*" },
           { key: "Content-Type", value: "application/javascript" },
