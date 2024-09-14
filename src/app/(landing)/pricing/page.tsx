@@ -75,8 +75,8 @@ const PricingPage: React.FC = () => {
       price: 0,
       features: [
         "1 Domain",
-        "50 Feedback Reports/Month",
-        "10 Bug Reports/Month",
+        "100 Feedback Reports/Month",
+        "100 Bug Reports/Month",
         "FeedbackThing Branding",
       ],
     },
@@ -85,8 +85,8 @@ const PricingPage: React.FC = () => {
       price: 15,
       features: [
         "Unlimited Domains",
-        "500 Feedback Reports/Month",
-        "100 Bug Reports/Month",
+        "1000 Feedback Reports/Month",
+        "1000 Bug Reports/Month",
         "Custom Branding",
       ],
       isPopular: true,
@@ -112,7 +112,7 @@ const PricingPage: React.FC = () => {
     {
       question: "What's the difference between monthly and yearly Pro plans?",
       answer:
-        "Both Pro plans offer the same features, but the yearly plan gives you two months free. The monthly plan is billed monthly and can be cancelled anytime, while the yearly plan is billed annually for greater savings.",
+        "Nothing really. Both Pro plans offer the same features, but the yearly plan gives you two months free. The monthly plan is billed monthly and can be cancelled anytime, while the yearly plan is billed annually for greater savings.",
     },
     {
       question: "What happens if I exceed my plan's monthly report limits?",
