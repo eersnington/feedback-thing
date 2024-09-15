@@ -41,7 +41,5 @@ export default async function Page({
     }
   }
 
-  console.log(user);
-
   return <Checkout />;
 }
