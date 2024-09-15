@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import FeedbackWidget from "./feedback-widget";
 
 export function HeroSection() {
   return (
@@ -29,14 +30,15 @@ export function HeroSection() {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <div className="relative h-[300px] w-[450px] overflow-hidden rounded-lg bg-gray-200 shadow-lg">
+            {/* <div className="relative h-[300px] w-[450px] overflow-hidden rounded-lg bg-gray-200 shadow-lg">
               <Image
                 src="/placeholder.svg"
                 alt="FeedbackThing Dashboard"
                 layout="fill"
                 objectFit="cover"
               />
-            </div>
+            </div> */}
+            <FeedbackWidget projectId={"123"} />
           </div>
         </div>
       </div>
