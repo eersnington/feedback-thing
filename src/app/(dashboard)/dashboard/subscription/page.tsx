@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Mail } from "lucide-react";
+import { Check, Mail } from "lucide-react";
 import { env } from "@/env";
 import { fetchSubscriptionData } from "@/actions/subscriptions";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -171,10 +171,26 @@ export default function SubscriptionsPage() {
           <CardContent className="flex-grow">
             <p className="mb-4 text-2xl font-bold">$15/month</p>
             <ul className="mb-4 list-inside list-disc">
-              <li>Unlimited Domains</li>
-              <li>1000 Feedback Reports/Month</li>
-              <li>1000 Bug Reports/Month</li>
-              <li>Custom Branding</li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                Unlimited Domains
+              </li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                1000 Feedback Reports/Month
+              </li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                1000 Bug Reports/Month
+              </li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                Custom Branding
+              </li>
             </ul>
           </CardContent>
           <CardFooter>
@@ -195,9 +211,25 @@ export default function SubscriptionsPage() {
           <CardContent className="flex-grow">
             <p className="mb-4 text-2xl font-bold">$150/year</p>
             <ul className="mb-4 list-inside list-disc">
-              <li>All Monthly Pro features</li>
-              <li>Billed annually</li>
-              <li>2 months free</li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                All Monthly Pro features
+              </li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                Billed annually
+              </li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />2 months free
+              </li>
+              <li>
+                {" "}
+                <Check className="mr-2 h-5 w-5 text-violet-500" />
+                Limits reset every month
+              </li>
             </ul>
           </CardContent>
           <CardFooter>

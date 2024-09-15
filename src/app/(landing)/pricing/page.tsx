@@ -17,7 +17,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 interface PricingTierProps {
   name: string;
@@ -34,7 +33,7 @@ const PricingTier: React.FC<PricingTierProps> = ({
 }) => {
   return (
     <Card
-      className={`relative flex flex-col ${isPopular ? "border-2 border-violet-500" : ""}`}
+      className={`relative flex flex-col shadow-lg duration-200 hover:scale-105 ${isPopular ? "border-2 border-violet-500" : ""}`}
     >
       {isPopular && (
         <Badge className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 transform bg-violet-500">
@@ -98,7 +97,12 @@ const PricingPage: React.FC = () => {
     {
       name: "Pro (Yearly)",
       price: "150",
-      features: ["All Pro features", "Billed annually", "2 months for free"],
+      features: [
+        "All Pro features",
+        "Billed annually",
+        "2 months for free",
+        "Limits reset every month",
+      ],
     },
   ];
 
