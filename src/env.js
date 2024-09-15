@@ -19,6 +19,7 @@ export const env = createEnv({
       .default("development"),
     PADDLE_WEBHOOK_SECRET_KEY: z.string(),
     PADDLE_API_KEY: z.string(),
+    CLERK_WEBHOOK_SECRET: z.string(),
   },
 
   /**
@@ -42,6 +43,8 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     PADDLE_WEBHOOK_SECRET_KEY: process.env.PADDLE_WEBHOOK_SECRET_KEY,
     PADDLE_API_KEY: process.env.PADDLE_API_KEY,
+    CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
+
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_PADDLE_ENVIRONMENT: process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT,
     NEXT_PUBLIC_PADDLE_CLIENT_TOKEN:
