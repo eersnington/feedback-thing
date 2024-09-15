@@ -17,6 +17,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 interface PricingTierProps {
   name: string;
@@ -30,43 +31,46 @@ const PricingTier: React.FC<PricingTierProps> = ({
   price,
   features,
   isPopular = false,
-}) => (
-  <Card
-    className={`relative flex flex-col ${isPopular ? "border-2 border-violet-500" : ""}`}
-  >
-    {isPopular && (
-      <Badge className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 transform bg-violet-500">
-        Most Popular
-      </Badge>
-    )}
-    <CardHeader>
-      <CardTitle>{name}</CardTitle>
-      <CardDescription>
-        <span className="text-3xl font-bold">${price}</span>
-        {price !== "Free" && <span className="text-gray-500">/month</span>}
-      </CardDescription>
-    </CardHeader>
-    <CardContent className="flex-grow">
-      <ul className="space-y-2">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-center">
-            <Check className="mr-2 h-5 w-5 text-violet-500" />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-    </CardContent>
-    <CardFooter className="mt-auto">
-      <Button
-        className={
-          isPopular ? "w-full bg-violet-600 hover:bg-violet-700" : "w-full"
-        }
-      >
-        Get Started
-      </Button>
-    </CardFooter>
-  </Card>
-);
+}) => {
+  return (
+    <Card
+      className={`relative flex flex-col ${isPopular ? "border-2 border-violet-500" : ""}`}
+    >
+      {isPopular && (
+        <Badge className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 transform bg-violet-500">
+          Most Popular
+        </Badge>
+      )}
+      <CardHeader>
+        <CardTitle>{name}</CardTitle>
+        <CardDescription>
+          <span className="text-3xl font-bold">${price}</span>
+          {price !== "Free" && <span className="text-gray-500">/month</span>}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex-grow">
+        <ul className="space-y-2">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-center">
+              <Check className="mr-2 h-5 w-5 text-violet-500" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter className="mt-auto">
+        <Button
+          className={
+            isPopular ? "w-full bg-violet-600 hover:bg-violet-700" : "w-full"
+          }
+          asChild
+        >
+          <Link href={"/sign-up"}>Get Started</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
 
 const PricingPage: React.FC = () => {
   const pricingTiers: PricingTierProps[] = [
