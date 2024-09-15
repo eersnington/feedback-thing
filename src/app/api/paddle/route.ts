@@ -2,6 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+
+// transaction.paid
+// subscription.activated
+// subscription.cancelled - done
+// subscription.created - done
+// subscription.past_due
+// subscription.updated - done
 import { env } from "@/env";
 import {
   Paddle,
