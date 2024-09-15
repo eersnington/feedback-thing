@@ -1,6 +1,5 @@
 import { Checkout } from "./_components/checkout";
 import { type Metadata } from "next";
-import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const priceIds = [
@@ -23,7 +22,6 @@ export default async function Page({
 }: {
   searchParams: { priceId?: string };
 }) {
-  const user = await currentUser();
   const priceId = searchParams.priceId;
 
   // Check if the priceId is valid

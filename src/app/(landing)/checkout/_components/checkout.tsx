@@ -33,18 +33,6 @@ function usePaddle() {
   return paddle;
 }
 
-// Define the Paddle event types
-type PaddleEventName =
-  | "checkout.loaded"
-  | "checkout.closed"
-  | "checkout.completed"
-  | "checkout.error";
-
-interface PaddleEvent {
-  name: PaddleEventName;
-  // Add other properties if needed
-}
-
 export function Checkout() {
   const router = useRouter();
   const searchParams = useSearchParams();
