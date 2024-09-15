@@ -5,7 +5,11 @@ const config = {
     project: true,
   },
   plugins: ["@typescript-eslint", "drizzle"],
-  ignorePatterns: ["src/components/ui/**", "public/feedback-widget.js"],
+  ignorePatterns: [
+    "src/components/ui/**",
+    "public/widget.es.js",
+    "public/widget.umd.js",
+  ],
   overrides: [
     {
       files: ["src/components/ui/**"],

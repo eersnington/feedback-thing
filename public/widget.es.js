@@ -1,3 +1,4 @@
+// @ts-nocheck
 function Cg(r, l) {
   for (var i = 0; i < l.length; i++) {
     const u = l[i];
