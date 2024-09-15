@@ -5,9 +5,11 @@ import { sql } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
-  serial,
   timestamp,
   varchar,
+  text,
+  integer,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -18,11 +20,52 @@ import {
  */
 export const createTable = pgTableCreator((name) => `fbthing_${name}`);
 
-export const posts = createTable(
-  "post",
+export const users = createTable(
+  "user",
   {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    id: varchar("id", { length: 256 }).primaryKey(),
+    firstName: varchar("first_name", { length: 256 }),
+    lastName: varchar("last_name", { length: 256 }),
+    email: varchar("email", { length: 256 }).notNull().unique(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+    subscriptionId: varchar("subscription_id", { length: 256 }),
+    transactionId: varchar("transaction_id", { length: 256 }),
+    customerId: varchar("customer_id", { length: 256 }),
+    subscriptionCreatedAt: timestamp("subscription_created_at", {
+      withTimezone: true,
+    }),
+    subscriptionUpdatedAt: timestamp("subscription_updated_at", {
+      withTimezone: true,
+    }),
+    subscriptionStartedAt: timestamp("subscription_started_at", {
+      withTimezone: true,
+    }),
+    subscriptionFirstBilledAt: timestamp("subscription_first_billed_at", {
+      withTimezone: true,
+    }),
+    subscriptionNextBilledAt: timestamp("subscription_next_billed_at", {
+      withTimezone: true,
+    }),
+  },
+  (table) => ({
+    emailIndex: index("email_idx").on(table.email),
+  }),
+);
+
+export const projects = createTable(
+  "project",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: varchar("user_id", { length: 256 })
+      .notNull()
+      .references(() => users.id),
+    name: varchar("name", { length: 256 }).notNull(),
+    domain: varchar("domain", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -30,7 +73,50 @@ export const posts = createTable(
       () => new Date(),
     ),
   },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
+  (table) => ({
+    userIdIndex: index("user_id_idx").on(table.userId),
+    domainIndex: index("domain_idx").on(table.domain),
+  }),
+);
+
+export const forms = createTable(
+  "form",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projects.id),
+    title: varchar("title", { length: 256 }).notNull(),
+    description: text("description"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+  },
+  (table) => ({
+    projectIdIndex: index("project_id_idx").on(table.projectId),
+  }),
+);
+
+export const feedbackItems = createTable(
+  "feedback_item",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    formId: uuid("form_id")
+      .notNull()
+      .references(() => forms.id),
+    type: varchar("type", { length: 50 }).notNull(),
+    rating: integer("rating"),
+    feedback: text("feedback").notNull(),
+    screenshot: text("screenshot"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => ({
+    formIdIndex: index("form_id_idx").on(table.formId),
+    typeIndex: index("type_idx").on(table.type),
   }),
 );
