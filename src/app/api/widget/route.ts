@@ -1,3 +1,6 @@
+// api/widget/route.ts
+// serves the widget component to users
+
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
