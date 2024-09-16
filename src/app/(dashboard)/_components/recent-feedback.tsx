@@ -14,6 +14,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+type FeedbackType = "feature" | "bug" | "question" | "other";
+
+interface FeedbackTypeOption {
+  value: FeedbackType;
+  label: string;
+  color: string;
+}
+
+const feedbackTypes: FeedbackTypeOption[] = [
+  { value: "feature", label: "Feature", color: "bg-yellow-500" },
+  { value: "bug", label: "Bug", color: "bg-red-400" },
+  { value: "question", label: "General Question", color: "bg-blue-400" },
+  { value: "other", label: "Other", color: "bg-teal-400" },
+];
 
 async function getRecentFeedback() {
   return db
@@ -23,6 +39,7 @@ async function getRecentFeedback() {
       feedback: feedbackItems.feedback,
       createdAt: feedbackItems.createdAt,
       projectName: projects.name,
+      projectDomain: projects.domain,
       formTitle: forms.title,
     })
     .from(feedbackItems)
@@ -63,7 +80,7 @@ export default async function RecentFeedbackTable() {
       <TableHeader>
         <TableRow>
           <TableHead>Project</TableHead>
-          <TableHead>Form</TableHead>
+          <TableHead>Domain</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Feedback</TableHead>
           <TableHead>Date</TableHead>
@@ -73,8 +90,15 @@ export default async function RecentFeedbackTable() {
         {recentFeedback.map((item) => (
           <TableRow key={item.id}>
             <TableCell>{item.projectName}</TableCell>
-            <TableCell>{item.formTitle}</TableCell>
-            <TableCell>{item.type}</TableCell>
+            <TableCell>{item.projectDomain}</TableCell>
+            <TableCell>
+              <Badge
+                className={`${feedbackTypes.find((f) => f.value === item.type)?.color ?? "bg-gray-500"}`}
+              >
+                {feedbackTypes.find((f) => f.value === item.type)?.label ??
+                  "Unknown"}
+              </Badge>
+            </TableCell>
             <TableCell className="max-w-xs truncate">{item.feedback}</TableCell>
             <TableCell>
               {new Date(item.createdAt).toLocaleDateString()}
