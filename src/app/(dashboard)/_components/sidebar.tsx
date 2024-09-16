@@ -15,14 +15,15 @@ import { cn } from "@/lib/utils";
 
 function NavItem({
   href,
+  pathname,
   icon: Icon,
   children,
 }: {
   href: string;
+  pathname: string;
   icon: React.ElementType;
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
   const isActive =
     pathname === href ||
     (href !== "/dashboard" && pathname.startsWith(`${href}/`));
@@ -51,6 +52,8 @@ function NavItem({
 }
 
 export function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="hidden w-64 overflow-y-auto border-r border-gray-200 bg-white px-5 py-8 dark:border-gray-800 dark:bg-gray-800 lg:block">
       <div className="flex items-center space-x-2">
@@ -66,19 +69,31 @@ export function Sidebar() {
         </span>
       </div>
       <nav className="mt-10 space-y-1">
-        <NavItem href="/dashboard" icon={LayoutDashboard}>
+        <NavItem pathname={pathname} href="/dashboard" icon={LayoutDashboard}>
           Dashboard
         </NavItem>
-        <NavItem href="/dashboard/projects" icon={FolderOpen}>
+        <NavItem
+          pathname={pathname}
+          href="/dashboard/projects"
+          icon={FolderOpen}
+        >
           Projects
         </NavItem>
-        <NavItem href="/dashboard/feedback" icon={MessageSquare}>
+        <NavItem
+          pathname={pathname}
+          href="/dashboard/feedback"
+          icon={MessageSquare}
+        >
           Feedback
         </NavItem>
-        <NavItem href="/dashboard/subscription" icon={CreditCard}>
+        <NavItem
+          pathname={pathname}
+          href="/dashboard/subscription"
+          icon={CreditCard}
+        >
           Subscription
         </NavItem>
-        <NavItem href="/dashboard/settings" icon={Settings}>
+        <NavItem pathname={pathname} href="/dashboard/settings" icon={Settings}>
           Settings
         </NavItem>
       </nav>
