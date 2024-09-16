@@ -1,9 +1,8 @@
-// app/dashboard/projects/actions.ts
 "use server";
 
 import { z } from "zod";
 import { db } from "@/server/db";
-import { projects } from "@/server/db/schema";
+import { projects, forms } from "@/server/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
@@ -34,18 +33,31 @@ export async function createProject(formData: FormData) {
   const { name, domain } = validatedFields.data;
 
   try {
-    const newProject = await db
-      .insert(projects)
-      .values({
-        userId: user.id,
-        name,
-        domain,
-      })
-      .returning();
+    const result = await db.transaction(async (tx) => {
+      const [newProject] = await tx
+        .insert(projects)
+        .values({
+          userId: user.id,
+          name,
+          domain,
+        })
+        .returning();
+
+      if (newProject) {
+        await tx.insert(forms).values({
+          projectId: newProject.id,
+          title: `${name} Feedback Form`,
+          description: `Default feedback form for ${name}`,
+        });
+      }
+
+      return newProject;
+    });
 
     revalidatePath("/dashboard/projects");
-    return { success: true, project: newProject[0] };
+    return { success: true, project: result };
   } catch (error) {
-    return { error: "Failed to create project. Please try again." };
+    console.error("Failed to create project and form:", error);
+    return { error: "Failed to create project and form. Please try again." };
   }
 }
