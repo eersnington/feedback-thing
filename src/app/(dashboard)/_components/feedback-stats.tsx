@@ -75,7 +75,7 @@ export default async function FeedbackStats() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {stats.avgRating ? stats.avgRating.toFixed(1) : "0"}/5
+            {stats.avgRating ? Number(stats.avgRating).toFixed(1) : "0"}/5
           </div>
         </CardContent>
       </Card>
