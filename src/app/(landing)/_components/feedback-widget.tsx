@@ -205,7 +205,7 @@ export default function FeedbackWidget({
           rel="noopener noreferrer"
           className="flex items-center space-x-2 text-sm text-gray-500 transition-colors hover:text-violet-500"
         >
-          <img
+          <Image
             src="https://www.feedbackthing.pro/favicon.ico"
             alt="Feedbackthing Logo"
             className="h-4 w-4"
