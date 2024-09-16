@@ -13,6 +13,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+
+type FeedbackType = "feature" | "bug" | "question" | "other";
+
+interface FeedbackTypeOption {
+  value: FeedbackType;
+  label: string;
+  color: string;
+}
+
+const feedbackTypes: FeedbackTypeOption[] = [
+  { value: "feature", label: "Feature", color: "bg-yellow-500" },
+  { value: "bug", label: "Bug", color: "bg-red-400" },
+  { value: "question", label: "General Question", color: "bg-blue-400" },
+  { value: "other", label: "Other", color: "bg-teal-400" },
+];
 
 async function getFeedback(domain?: string, type?: string) {
   const user = await currentUser();
@@ -69,7 +85,14 @@ export default async function FeedbackTable({
         {feedback.map((item) => (
           <TableRow key={item.id}>
             <TableCell>{item.domain}</TableCell>
-            <TableCell>{item.type}</TableCell>
+            <TableCell>
+              <Badge
+                className={`${feedbackTypes.find((f) => f.value === item.type)?.color ?? "bg-gray-500"}`}
+              >
+                {feedbackTypes.find((f) => f.value === item.type)?.label ??
+                  "Unknown"}
+              </Badge>
+            </TableCell>
             <TableCell className="max-w-xs truncate">{item.feedback}</TableCell>
             <TableCell>
               {new Date(item.createdAt).toLocaleDateString()}
