@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
@@ -10,6 +10,7 @@ import {
   text,
   integer,
   uuid,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -96,7 +97,7 @@ export const forms = createTable(
     ),
   },
   (table) => ({
-    projectIdIndex: index("project_id_idx").on(table.projectId),
+    projectIdIndex: uniqueIndex("project_id_idx").on(table.projectId),
   }),
 );
 
@@ -120,3 +121,17 @@ export const feedbackItems = createTable(
     typeIndex: index("type_idx").on(table.type),
   }),
 );
+
+export const projectRelations = relations(projects, ({ one }) => ({
+  form: one(forms, {
+    fields: [projects.id],
+    references: [forms.projectId],
+  }),
+}));
+
+export const formRelations = relations(forms, ({ one }) => ({
+  project: one(projects, {
+    fields: [forms.projectId],
+    references: [projects.id],
+  }),
+}));
