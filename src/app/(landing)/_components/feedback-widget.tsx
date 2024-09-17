@@ -92,9 +92,11 @@ export default function FeedbackWidget({
             className="flex items-center space-x-2 text-sm text-gray-500 transition-colors hover:text-violet-500"
           >
             <Image
-              src="https://www.feedbackthing.pro/favicon.ico"
+              src="/favicon.ico"
               alt="Feedbackthing Logo"
               className="h-4 w-4"
+              width={8}
+              height={8}
             />
             <span>Powered by feedbackthing.pro</span>
           </a>
@@ -206,9 +208,11 @@ export default function FeedbackWidget({
           className="flex items-center space-x-2 text-sm text-gray-500 transition-colors hover:text-violet-500"
         >
           <Image
-            src="https://www.feedbackthing.pro/favicon.ico"
+            src="/favicon.ico"
             alt="Feedbackthing Logo"
             className="h-4 w-4"
+            width={8}
+            height={8}
           />
           <span>Powered by feedbackthing.pro</span>
         </a>
