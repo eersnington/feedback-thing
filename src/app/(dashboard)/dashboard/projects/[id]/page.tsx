@@ -46,6 +46,7 @@ export default async function ProjectPage({
   `.trim();
 
   const reactCode = `
+  "use client";
 import React, { useEffect, useState } from "react";
 
 declare global {
@@ -117,7 +118,7 @@ export default FeedbackWidget;
           <Tabs defaultValue="html" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="html">HTML</TabsTrigger>
-              <TabsTrigger value="react">React (TSX)</TabsTrigger>
+              <TabsTrigger value="react">NextJS (TSX)</TabsTrigger>
             </TabsList>
             <TabsContent value="html">
               <Card>

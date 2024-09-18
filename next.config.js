@@ -6,6 +6,18 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "sreenington-nextjs-test.loca.lt",
+      },
+    ],
+  },
   async headers() {
     return [
       {

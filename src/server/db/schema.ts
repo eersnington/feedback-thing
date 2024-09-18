@@ -135,3 +135,10 @@ export const formRelations = relations(forms, ({ one }) => ({
     references: [projects.id],
   }),
 }));
+
+export const feedbackItemRelations = relations(feedbackItems, ({ one }) => ({
+  form: one(forms, {
+    fields: [feedbackItems.formId],
+    references: [forms.id],
+  }),
+}));
