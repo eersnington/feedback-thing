@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { currentUser } from "@clerk/nextjs/server";
 import { ProjectSkeletonList } from "./pl-skeleton";
+import { DeleteConfirmationDialog } from "./delete-project-btn";
 
 async function getProjects() {
   const user = await currentUser();
@@ -52,9 +53,18 @@ async function ProjectListContent() {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-sm text-gray-500">{project.domain}</p>
-            <Link href={`/dashboard/projects/${project.id}`}>
-              <Button variant="outline">View Details</Button>
+            <Link className="mr-2" href={`/dashboard/projects/${project.id}`}>
+              <Button
+                variant="outline"
+                className="bg-violet-500 text-white hover:bg-violet-800 hover:text-white"
+              >
+                View Details
+              </Button>
             </Link>
+            <DeleteConfirmationDialog
+              projectId={project.id}
+              projectName={project.name}
+            />
           </CardContent>
         </Card>
       ))}

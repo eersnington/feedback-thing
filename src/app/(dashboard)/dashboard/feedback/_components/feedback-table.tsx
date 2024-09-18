@@ -77,7 +77,7 @@ export default async function FeedbackTable({
           <TableHead>Domain</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Feedback</TableHead>
-          <TableHead>Date</TableHead>
+          <TableHead>Date {"(mm/dd/yyyy)"}</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>

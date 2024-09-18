@@ -23,6 +23,15 @@ interface SubscriptionData {
   subscriptionNextBilledAt: Date | null;
 }
 
+interface SubscriptionCardProps {
+  title: string;
+  price: string;
+  features: string[];
+  buttonText: string;
+  onUpgrade: () => void;
+  isCurrentPlan: boolean;
+}
+
 function usePaddle() {
   const [paddle, setPaddle] = useState<Paddle | undefined>(undefined);
 
@@ -62,6 +71,41 @@ function SubscriptionSkeleton() {
     </Card>
   );
 }
+
+const SubscriptionCard = ({
+  title,
+  price,
+  features,
+  buttonText,
+  onUpgrade,
+  isCurrentPlan,
+}: SubscriptionCardProps) => (
+  <Card className="flex h-full flex-col">
+    <CardHeader>
+      <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <p className="mb-6 text-3xl font-bold text-purple-600">{price}</p>
+      <ul className="space-y-3">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center">
+            <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </CardContent>
+    <CardFooter>
+      <Button
+        className="w-full bg-purple-600 transition-colors hover:bg-purple-700"
+        onClick={onUpgrade}
+        disabled={isCurrentPlan}
+      >
+        {isCurrentPlan ? "Current Plan" : buttonText}
+      </Button>
+    </CardFooter>
+  </Card>
+);
 
 export default function SubscriptionsPage() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -164,84 +208,32 @@ export default function SubscriptionsPage() {
         </CardContent>
       </Card>
       <div className="grid gap-8 md:grid-cols-2">
-        <Card className="flex flex-col">
-          <CardHeader>
-            <CardTitle>Monthly Pro</CardTitle>
-          </CardHeader>
-          <CardContent className="flex-grow">
-            <p className="mb-4 text-2xl font-bold">$15/month</p>
-            <ul className="mb-4 list-inside list-disc">
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                Unlimited Domains
-              </li>
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                1000 Feedback Reports/Month
-              </li>
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                1000 Bug Reports/Month
-              </li>
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                Custom Branding
-              </li>
-            </ul>
-          </CardContent>
-          <CardFooter>
-            <Button
-              className="w-full bg-purple-500"
-              onClick={() => handleUpgrade("pri_01gwv3cf79kc5pn9esbvq5c3v1")}
-              disabled={subscriptionData?.plan === "Pro"}
-            >
-              {subscriptionData?.plan === "Pro" ? "Current Plan" : "Upgrade"}
-            </Button>
-          </CardFooter>
-        </Card>
-
-        <Card className="flex flex-col">
-          <CardHeader>
-            <CardTitle>Yearly Pro</CardTitle>
-          </CardHeader>
-          <CardContent className="flex-grow">
-            <p className="mb-4 text-2xl font-bold">$150/year</p>
-            <ul className="mb-4 list-inside list-disc">
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                All Monthly Pro features
-              </li>
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                Billed annually
-              </li>
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />2 months free
-              </li>
-              <li>
-                {" "}
-                <Check className="mr-2 h-5 w-5 text-violet-500" />
-                Limits reset every month
-              </li>
-            </ul>
-          </CardContent>
-          <CardFooter>
-            <Button
-              className="w-full bg-purple-500"
-              onClick={() => handleUpgrade("pri_01gwv3d2pbbzbyn4zd24mtvsgy")}
-              disabled={subscriptionData?.plan === "Pro"}
-            >
-              {subscriptionData?.plan === "Pro" ? "Current Plan" : "Upgrade"}
-            </Button>
-          </CardFooter>
-        </Card>
+        <SubscriptionCard
+          title="Monthly Pro"
+          price="$15/month"
+          features={[
+            "Unlimited Domains",
+            "1000 Feedback Reports/Month",
+            "1000 Bug Reports/Month",
+            "Custom Branding (releasing Oct)",
+          ]}
+          buttonText="Upgrade"
+          onUpgrade={() => handleUpgrade("pri_01gwv3cf79kc5pn9esbvq5c3v1")}
+          isCurrentPlan={subscriptionData?.plan === "Pro"}
+        />
+        <SubscriptionCard
+          title="Yearly Pro"
+          price="$150/year"
+          features={[
+            "All Monthly Pro features",
+            "Billed annually",
+            "2 months free",
+            "Limits reset every month",
+          ]}
+          buttonText="Upgrade"
+          onUpgrade={() => handleUpgrade("pri_01gwv3d2pbbzbyn4zd24mtvsgy")}
+          isCurrentPlan={subscriptionData?.plan === "Pro"}
+        />
       </div>
     </div>
   );
