@@ -16,6 +16,14 @@ const config = {
         protocol: "https",
         hostname: "sreenington-nextjs-test.loca.lt",
       },
+      {
+        protocol: "https",
+        hostname: "feedbackthing.pro",
+      },
+      {
+        protocol: "https",
+        hostname: "feedback-thing.vercel.app",
+      },
     ],
   },
   async headers() {

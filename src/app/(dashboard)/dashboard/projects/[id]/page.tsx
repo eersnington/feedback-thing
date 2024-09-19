@@ -8,6 +8,7 @@ import { CodeBlock } from "../_components/code-blocks";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Globe, Code } from "lucide-react";
+import { env } from "@/env";
 
 async function getProject(id: string) {
   const user = await currentUser();
@@ -38,7 +39,7 @@ export default async function ProjectPage({
   const htmlCode = `
 <script
   async
-  src="https://sreenington-nextjs-test.loca.lt/api/widget?projectId=${project.id}"
+  src="${env.NEXT_PUBLIC_APP_URL}/api/widget?projectId=${project.id}"
 ></script>
 <feedback-thing
   project-id="${project.id}"
@@ -71,7 +72,7 @@ const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({ projectId }) => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = \`https://sreenington-nextjs-test.loca.lt/api/widget?projectId=${project.id}\`;
+    script.src = \`${env.NEXT_PUBLIC_APP_URL}/api/widget?projectId=${project.id}\`;
     script.async = true;
     script.onload = () => setScriptLoaded(true);
     document.head.appendChild(script);
