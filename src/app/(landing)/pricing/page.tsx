@@ -79,7 +79,7 @@ const PricingPage: React.FC = () => {
       features: [
         "1 Domain",
         "100 Feedback Reports/Month",
-        "100 Bug Reports/Month",
+        "10 Bug Reports/Month",
         "FeedbackThing Branding",
       ],
     },
@@ -88,7 +88,7 @@ const PricingPage: React.FC = () => {
       price: 15,
       features: [
         "Unlimited Domains",
-        "1000 Feedback Reports/Month",
+        "Unlimited Feedback Reports",
         "1000 Bug Reports/Month",
         "Custom Branding",
       ],

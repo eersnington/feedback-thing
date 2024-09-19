@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { writeFile } from "fs/promises";
 import path from "path";
+import { env } from "@/env";
 
 const feedbackSchema = z.object({
   projectId: z.string().uuid(),
@@ -90,7 +91,7 @@ export async function POST(req: NextRequest) {
       const buffer = Buffer.from(arrayBuffer);
       await writeFile(filePath, buffer);
 
-      screenshotUrl = `https://sreenington-nextjs-test.loca.lt/screenshots/${fileName}`;
+      screenshotUrl = `${env.NEXT_PUBLIC_APP_URL}/screenshots/${fileName}`;
     }
 
     // Insert the feedback into the database

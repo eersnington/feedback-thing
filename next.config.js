@@ -16,10 +16,6 @@ const config = {
         protocol: "https",
         hostname: "sreenington-nextjs-test.loca.lt",
       },
-      {
-        protocol: "https",
-        hostname: "utfs.io",
-      },
     ],
   },
   async headers() {
