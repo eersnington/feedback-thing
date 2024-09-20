@@ -99,7 +99,7 @@ export default async function FeedbackTable({
             </TableCell>
             <TableCell>
               <Link href={`/dashboard/feedback/${item.id}`}>
-                <Button variant="outline" size="sm">
+                <Button variant="default" size="sm">
                   View
                 </Button>
               </Link>
