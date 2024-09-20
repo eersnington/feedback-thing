@@ -9,6 +9,8 @@ import {
   getUserFeedbackCount,
   getUserProjectCount,
   isUserPaid,
+  MAX_FREE_FEEDBACK_LIMIT,
+  MAX_FREE_PROJECTS,
 } from "@/server/quota";
 
 export interface SubscriptionData {
@@ -89,9 +91,9 @@ export async function fetchUsageData(): Promise<UsageData> {
 
   return {
     feedbackItems: userFeedbackCount,
-    feedbackLimit: "50",
+    feedbackLimit: MAX_FREE_FEEDBACK_LIMIT.toString(),
     projects: userProjectCount,
-    projectLimit: "1",
+    projectLimit: MAX_FREE_PROJECTS.toString(),
     message: "Upgrade to access more projects and feedback",
     isPaid: false,
   };
