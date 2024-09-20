@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -66,7 +66,9 @@ export default async function RecentFeedbackTable() {
             </p>
             <div className="mt-6">
               <Link href="/dashboard/projects">
-                <Button>View Projects</Button>
+                <Button>
+                  <Plus className="mr-2 w-4 h-4" /> Add a Project
+                </Button>
               </Link>
             </div>
           </div>
