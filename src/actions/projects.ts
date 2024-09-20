@@ -6,6 +6,9 @@ import { projects, forms, feedbackItems } from "@/server/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
+import { getUserProjectCount, isUserPaid } from "@/server/quota";
+
+const MAX_FREE_PROJECTS = 1;
 
 const projectSchema = z.object({
   name: z.string().min(1, "Project name is required").max(255),
@@ -18,6 +21,7 @@ const projectSchema = z.object({
 const deleteProjectSchema = z.object({
   projectId: z.string().uuid(),
 });
+
 
 export async function createProject(formData: FormData) {
   const user = await currentUser();
@@ -38,6 +42,19 @@ export async function createProject(formData: FormData) {
   const { name, domain } = validatedFields.data;
 
   try {
+    // Check if the user is paid
+    const isPaid = await isUserPaid(user.id);
+
+    // If not paid, check project count
+    if (!isPaid) {
+      const projectCount = await getUserProjectCount(user.id);
+      if (projectCount >= MAX_FREE_PROJECTS) {
+        return {
+          error: `Free users are limited to ${MAX_FREE_PROJECTS} project. Please upgrade to create more projects.`,
+        };
+      }
+    }
+
     const result = await db.transaction(async (tx) => {
       const [newProject] = await tx
         .insert(projects)
