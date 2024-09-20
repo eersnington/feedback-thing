@@ -4,9 +4,11 @@ import { db } from "@/server/db";
 import { projects, forms, feedbackItems } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { utapi } from "@/server/uploadthing";
-import { getUserFeedbackCount, isUserPaid } from "@/server/quota";
-
-const FREE_FEEDBACK_LIMIT = 100;
+import {
+  MAX_FREE_FEEDBACK_LIMIT,
+  getUserFeedbackCount,
+  isUserPaid,
+} from "@/server/quota";
 
 const feedbackSchema = z.object({
   projectId: z.string().uuid(),
@@ -60,9 +62,12 @@ export async function POST(req: NextRequest) {
     if (!isPaid) {
       const feedbackCount = await getUserFeedbackCount(project.userId);
 
-      if (feedbackCount >= FREE_FEEDBACK_LIMIT) {
+      if (feedbackCount >= MAX_FREE_FEEDBACK_LIMIT) {
         return NextResponse.json(
-          { error: "Free feedback submission limit reached" },
+          {
+            error:
+              "Monthly feedback submission limit reached. Please upgrade for more.",
+          },
           { status: 403 },
         );
       }
