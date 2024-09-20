@@ -3,14 +3,10 @@ import { z } from "zod";
 import { db } from "@/server/db";
 import { projects, forms, feedbackItems } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
-import { v4 as uuidv4 } from "uuid";
-import { writeFile } from "fs/promises";
-import path from "path";
-import { env } from "@/env";
 import { utapi } from "@/server/uploadthing";
+import { getUserFeedbackCount, isUserPaid } from "@/server/quota";
 
-// const response = await utapi.uploadFiles(files);
-// //    ^? UploadedFileResponse[]
+const FREE_FEEDBACK_LIMIT = 100;
 
 const feedbackSchema = z.object({
   projectId: z.string().uuid(),
@@ -30,12 +26,6 @@ export async function POST(req: NextRequest) {
     const feedback = formData.get("feedback") as string;
     const screenshot = formData.get("screenshot") as File | null;
 
-    console.log(projectId);
-    console.log(type);
-    console.log(rating);
-    console.log(feedback);
-    console.log(screenshot);
-
     const validatedData = feedbackSchema.parse({
       projectId,
       type,
@@ -50,8 +40,6 @@ export async function POST(req: NextRequest) {
       ? new URL(referer).hostname
       : (origin ?? "Unknown");
 
-    console.log(`Feedback submission from domain: ${requestDomain}`);
-
     // Check if the project exists and the domain is authorized
     const project = await db.query.projects.findFirst({
       where: eq(projects.id, validatedData.projectId),
@@ -65,6 +53,19 @@ export async function POST(req: NextRequest) {
         { error: "Unauthorized: Invalid project ID or domain" },
         { status: 403 },
       );
+    }
+
+    // Check user's subscription status and feedback count
+    const isPaid = await isUserPaid(project.userId);
+    if (!isPaid) {
+      const feedbackCount = await getUserFeedbackCount(project.userId);
+
+      if (feedbackCount >= FREE_FEEDBACK_LIMIT) {
+        return NextResponse.json(
+          { error: "Free feedback submission limit reached" },
+          { status: 403 },
+        );
+      }
     }
 
     // Find the form associated with the project
