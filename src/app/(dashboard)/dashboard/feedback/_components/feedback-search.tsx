@@ -1,8 +1,7 @@
-// app/dashboard/feedback/_components/feedback-search.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
 
 type FeedbackTypeOption = {
   value: string;
@@ -35,19 +35,27 @@ export default function FeedbackSearch({
 }) {
   const [domain, setDomain] = useState(initialDomain ?? "");
   const [type, setType] = useState(initialType ?? "all");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     setDomain(initialDomain ?? "");
     setType(initialType ?? "all");
   }, [initialDomain, initialType]);
 
+  useEffect(() => {
+    // Reset isSubmitting state when searchParams change
+    setIsSubmitting(false);
+  }, [searchParams]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const searchParams = new URLSearchParams();
-    if (domain) searchParams.append("domain", domain);
-    if (type && type !== "all") searchParams.append("type", type);
-    router.push(`/dashboard/feedback?${searchParams.toString()}`);
+    setIsSubmitting(true);
+    const params = new URLSearchParams();
+    if (domain) params.append("domain", domain);
+    if (type && type !== "all") params.append("type", type);
+    router.push(`/dashboard/feedback?${params.toString()}`);
   };
 
   return (
@@ -56,8 +64,9 @@ export default function FeedbackSearch({
         placeholder="Search by domain"
         value={domain}
         onChange={(e) => setDomain(e.target.value)}
+        disabled={isSubmitting}
       />
-      <Select value={type} onValueChange={setType}>
+      <Select value={type} onValueChange={setType} disabled={isSubmitting}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Feedback type" />
         </SelectTrigger>
@@ -80,7 +89,16 @@ export default function FeedbackSearch({
           ))}
         </SelectContent>
       </Select>
-      <Button type="submit">Search</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Searching...
+          </>
+        ) : (
+          "Search"
+        )}
+      </Button>
     </form>
   );
 }
