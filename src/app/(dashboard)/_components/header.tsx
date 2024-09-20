@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser, SignOutButton } from "@clerk/nextjs";
-import { Bell, Settings, LogOut } from "lucide-react";
+import { Bell, Settings, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -13,9 +13,77 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+function UserAvatar() {
+  const { user } = useUser();
+
+  if (!user) return null;
+
+  return (
+    <Avatar className="h-8 w-8">
+      <AvatarImage src={user.imageUrl} alt={`@${user.username}`} />
+      <AvatarFallback>
+        {user.firstName?.[0]}
+        {user.lastName?.[0]}
+      </AvatarFallback>
+    </Avatar>
+  );
+}
+
+function UserMenu() {
+  const { user } = useUser();
+
+  if (!user) return null;
+
+  return (
+    <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuLabel className="font-normal">
+        <div className="flex flex-col space-y-1">
+          <p className="text-sm font-medium leading-none">{user.fullName}</p>
+          <p className="text-xs leading-none text-muted-foreground">
+            {user.primaryEmailAddress?.emailAddress}
+          </p>
+        </div>
+      </DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <Link href="/dashboard/settings" passHref legacyBehavior>
+        <DropdownMenuItem asChild>
+          <a>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+          </a>
+        </DropdownMenuItem>
+      </Link>
+      <SignOutButton>
+        <DropdownMenuItem>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Log out</span>
+        </DropdownMenuItem>
+      </SignOutButton>
+    </DropdownMenuContent>
+  );
+}
+
+function UserAvatarWithSuspense() {
+  return (
+    <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
+      <UserAvatar />
+    </Suspense>
+  );
+}
+
+function UserMenuWithSuspense() {
+  return (
+    <Suspense fallback={<Skeleton className="h-24 w-56" />}>
+      <UserMenu />
+    </Suspense>
+  );
+}
 
 export function Header() {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
 
   if (!isLoaded || !isSignedIn) {
     return null;
@@ -35,42 +103,10 @@ export function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={user.imageUrl} alt={`@${user.username}`} />
-                <AvatarFallback>
-                  {user.firstName?.[0]}
-                  {user.lastName?.[0]}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatarWithSuspense />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {user.fullName}
-                </p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  {user.primaryEmailAddress?.emailAddress}
-                </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <Link href="/dashboard/settings" passHref legacyBehavior>
-              <DropdownMenuItem asChild>
-                <a>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </a>
-              </DropdownMenuItem>
-            </Link>
-            <SignOutButton>
-              <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </SignOutButton>
-          </DropdownMenuContent>
+          <UserMenuWithSuspense />
         </DropdownMenu>
       </div>
     </header>
