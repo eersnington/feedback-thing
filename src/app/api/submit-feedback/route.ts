@@ -7,6 +7,10 @@ import { v4 as uuidv4 } from "uuid";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { env } from "@/env";
+import { utapi } from "@/server/uploadthing";
+
+// const response = await utapi.uploadFiles(files);
+// //    ^? UploadedFileResponse[]
 
 const feedbackSchema = z.object({
   projectId: z.string().uuid(),
@@ -77,21 +81,15 @@ export async function POST(req: NextRequest) {
 
     let screenshotUrl = null;
     if (screenshot) {
-      const fileExtension = screenshot.type === "image/png" ? "png" : "jpg";
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const fileName = `${uuidv4()}.${fileExtension}`;
-      const filePath = path.join(
-        process.cwd(),
-        "public",
-        "screenshots",
-        fileName,
-      );
+      // Upload the screenshot to uploadthing
+      const uploadResponse = await utapi.uploadFiles([screenshot]);
+      console.log("Upload response:", uploadResponse);
 
-      const arrayBuffer = await screenshot.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      await writeFile(filePath, buffer);
-
-      screenshotUrl = `${env.NEXT_PUBLIC_APP_URL}/screenshots/${fileName}`;
+      if (Array.isArray(uploadResponse) && uploadResponse[0]?.data) {
+        screenshotUrl = uploadResponse[0].data.url;
+      } else {
+        console.error("Failed to upload screenshot:", uploadResponse);
+      }
     }
 
     // Insert the feedback into the database
