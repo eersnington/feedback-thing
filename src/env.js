@@ -32,6 +32,8 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: z.string(),
     NEXT_PUBLIC_PADDLE_ENVIRONMENT: z.enum(["sandbox", "production"]),
     NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: z.string(),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string(),
   },
 
   /**
@@ -49,6 +51,9 @@ export const env = createEnv({
     NEXT_PUBLIC_PADDLE_ENVIRONMENT: process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT,
     NEXT_PUBLIC_PADDLE_CLIENT_TOKEN:
       process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },

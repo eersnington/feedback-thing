@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import { PHProvider } from "@/components/posthog/provider";
 
 export const metadata: Metadata = {
   title: "FeedbackThing",
@@ -17,12 +18,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body>
-          <main>{children}</main>
-          <Toaster />
-        </body>
-      </html>
+      <PHProvider>
+        <html lang="en" className={`${GeistSans.variable}`}>
+          <body>
+            <main>{children}</main>
+            <Toaster />
+          </body>
+        </html>
+      </PHProvider>
     </ClerkProvider>
   );
 }
