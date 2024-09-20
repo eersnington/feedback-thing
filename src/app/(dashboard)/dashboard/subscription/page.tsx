@@ -1,4 +1,3 @@
-// app/dashboard/subscriptions/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,13 +13,23 @@ import {
 } from "@/components/ui/card";
 import { Check, Mail } from "lucide-react";
 import { env } from "@/env";
-import { fetchSubscriptionData } from "@/actions/subscriptions";
+import { fetchSubscriptionData, fetchUsageData } from "@/actions/subscriptions";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
 
 interface SubscriptionData {
   subscriptionId: string | null;
   plan: "Free" | "Pro";
   subscriptionNextBilledAt: Date | null;
+}
+
+interface UsageData {
+  feedbackItems: number;
+  feedbackLimit: string;
+  projects: number;
+  projectLimit: string;
+  message: string;
+  isPaid: boolean;
 }
 
 interface SubscriptionCardProps {
@@ -112,12 +121,16 @@ export default function SubscriptionsPage() {
   const paddle = usePaddle();
   const [subscriptionData, setSubscriptionData] =
     useState<SubscriptionData | null>(null);
+  const [usageData, setUsageData] = useState<UsageData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
-      fetchSubscriptionData()
-        .then((data) => setSubscriptionData(data))
+      Promise.all([fetchSubscriptionData(), fetchUsageData()])
+        .then(([subData, usage]) => {
+          setSubscriptionData(subData);
+          setUsageData(usage);
+        })
         .catch(console.error)
         .finally(() => setLoading(false));
     }
@@ -174,9 +187,9 @@ export default function SubscriptionsPage() {
         <CardHeader>
           <CardTitle className="text-xl">
             Current Plan:{" "}
-            {(
-              <span className="text-purple-500">{subscriptionData?.plan}</span>
-            ) ?? "Free"}
+            <span className="text-purple-500">
+              {subscriptionData?.plan ?? "Free"}
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -198,12 +211,87 @@ export default function SubscriptionsPage() {
                     : "N/A"}
                 </span>
               </p>
-              <Button onClick={handleCancelRequest} className="mt-4">
+              <div className="mt-4 space-y-4">
+                <div>
+                  <div className="mb-2 flex justify-between">
+                    <span>Feedback Items</span>
+                    <span>
+                      {usageData?.feedbackItems} / {usageData?.feedbackLimit}
+                    </span>
+                  </div>
+                  <Progress
+                    value={
+                      ((usageData?.feedbackItems ?? 0) /
+                        (parseInt(usageData?.feedbackLimit ?? "50") || 1)) *
+                      100
+                    }
+                    className="h-2"
+                  />
+                </div>
+                <div>
+                  <div className="mb-2 flex justify-between">
+                    <span>Projects</span>
+                    <span>
+                      {usageData?.projects} / {usageData?.projectLimit}
+                    </span>
+                  </div>
+                  <Progress
+                    value={
+                      ((usageData?.projects ?? 0) /
+                        (parseInt(usageData?.projectLimit ?? "1") || 1)) *
+                      100
+                    }
+                    className="h-2"
+                  />
+                </div>
+              </div>
+              <Button onClick={handleCancelRequest} className="mt-6">
                 <Mail className="mr-2 h-4 w-4" /> Request Cancellation
               </Button>
             </>
           ) : (
-            <p>Upgrade to access more features!</p>
+            <>
+              <p className="mb-4">Upgrade to access more features!</p>
+              <div className="space-y-4">
+                <div>
+                  <div className="mb-2 flex justify-between">
+                    <span>Feedback Items</span>
+                    <span>
+                      {usageData?.feedbackItems} / {usageData?.feedbackLimit}
+                    </span>
+                  </div>
+                  <Progress
+                    value={
+                      ((usageData?.feedbackItems ?? 0) /
+                        (parseInt(usageData?.feedbackLimit ?? "50") || 1)) *
+                      100
+                    }
+                    className="h-2"
+                  />
+                </div>
+                <div>
+                  <div className="mb-2 flex justify-between">
+                    <span>Projects</span>
+                    <span>
+                      {usageData?.projects} / {usageData?.projectLimit}
+                    </span>
+                  </div>
+                  <Progress
+                    value={
+                      ((usageData?.projects ?? 0) /
+                        (parseInt(usageData?.projectLimit ?? "1") || 1)) *
+                      100
+                    }
+                    className="h-2"
+                  />
+                </div>
+              </div>
+              {usageData?.message && (
+                <p className="mt-4 text-sm text-gray-600">
+                  {usageData.message}
+                </p>
+              )}
+            </>
           )}
         </CardContent>
       </Card>
@@ -213,8 +301,7 @@ export default function SubscriptionsPage() {
           price="$15/month"
           features={[
             "Unlimited Domains",
-            "1000 Feedback Reports/Month",
-            "1000 Bug Reports/Month",
+            "Unlimited Feedbacks",
             "Custom Branding (releasing Oct)",
           ]}
           buttonText="Upgrade"
