@@ -13,7 +13,7 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-violet-50 via-white to-violet-50 py-12 md:py-24 lg:py-32 xl:py-48">
       <div className="container relative z-10 px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:gap-8">
+        <div className="grid gap-6 lg:grid-cols-[1fr_650px] lg:gap-8 xl:grid-cols-[1fr_650px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,10 +83,10 @@ export function HeroSection() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="relative flex w-full items-center justify-center"
+            className="relative flex items-center justify-center lg:ml-32"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-violet-200 to-indigo-200 opacity-30 blur-3xl" />
-            <div className="relative w-full">
+            <div className="relative h-full w-full">
               <FeedbackWidget projectId={"123"} />
             </div>
           </motion.div>
