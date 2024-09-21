@@ -77,25 +77,28 @@ const PricingPage: React.FC = () => {
       name: "Free",
       price: 0,
       features: [
-        "2 Domains",
-        "20 Feedback Reports/Month",
+        "2 domains",
+        "20 feedback submissions/month",
         "FeedbackThing Branding",
       ],
     },
     {
       name: "Pro",
       price: 15,
-      features: ["Unlimited Domains", "Unlimited Feedback", "Custom Branding"],
+      features: [
+        "Unlimited domains",
+        "Unlimited feedback submissions",
+        "Custom branding",
+      ],
       isPopular: true,
     },
     {
       name: "Pro (Yearly)",
       price: "150",
       features: [
-        "All Pro features",
+        "All the Pro Plan features",
         "Billed annually",
         "2 months for free",
-        "Limits reset every month",
       ],
     },
   ];

@@ -14,7 +14,7 @@ export function Header() {
           height={32}
         />
         <span className="ml-2 text-xl font-bold text-gray-800">
-          Feedback<span className="text-violet-600">Thing</span>
+          feedback<span className="text-violet-600">thing</span>
         </span>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">

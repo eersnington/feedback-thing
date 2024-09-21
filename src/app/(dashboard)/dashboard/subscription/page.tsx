@@ -145,7 +145,7 @@ export default function SubscriptionsPage() {
       },
       items: [{ priceId, quantity: 1 }],
       customer: {
-        email: user.primaryEmailAddress?.emailAddress ?? "",
+        email: user.emailAddresses[0]?.emailAddress ?? "customer@email.com",
       },
       customData: {
         userId: user.id,
@@ -300,12 +300,12 @@ export default function SubscriptionsPage() {
           title="Monthly Pro"
           price="$15/month"
           features={[
-            "Unlimited Domains",
+            "Unlimited Domains/Projects",
             "Unlimited Feedbacks",
             "Custom Branding (releasing Oct)",
           ]}
           buttonText="Upgrade"
-          onUpgrade={() => handleUpgrade("pri_01gwv3cf79kc5pn9esbvq5c3v1")}
+          onUpgrade={() => handleUpgrade("pri_01j7p0kxpydd5zsfr231f21d9p")}
           isCurrentPlan={subscriptionData?.plan === "Pro"}
         />
         <SubscriptionCard
@@ -318,7 +318,7 @@ export default function SubscriptionsPage() {
             "Limits reset every month",
           ]}
           buttonText="Upgrade"
-          onUpgrade={() => handleUpgrade("pri_01gwv3d2pbbzbyn4zd24mtvsgy")}
+          onUpgrade={() => handleUpgrade("pri_01j7p0mc65s6hyzz4t58xexrfq")}
           isCurrentPlan={subscriptionData?.plan === "Pro"}
         />
       </div>

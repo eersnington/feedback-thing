@@ -3,8 +3,8 @@ import { db } from "@/server/db";
 import { users, projects, forms, feedbackItems } from "@/server/db/schema";
 import { eq, and, sql } from "drizzle-orm";
 
-export const MAX_FREE_PROJECTS = 2;
-export const MAX_FREE_FEEDBACK_LIMIT = 50;
+export const MAX_FREE_PROJECTS = 3;
+export const MAX_FREE_FEEDBACK_LIMIT = 20;
 
 export async function getUserProjectCount(userId: string): Promise<number> {
   const result = await db
