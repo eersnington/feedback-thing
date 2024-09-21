@@ -47,12 +47,27 @@ export async function POST(req: NextRequest) {
       where: eq(projects.id, validatedData.projectId),
     });
 
-    if (
-      !project ||
-      (project.domain !== requestDomain && requestDomain !== "localhost")
-    ) {
+    if (!project) {
       return NextResponse.json(
-        { error: "Unauthorized: Invalid project ID or domain" },
+        { error: "Unauthorized: Invalid project ID" },
+        { status: 403 },
+      );
+    }
+
+    if (requestDomain == "localhost") {
+      return NextResponse.json(
+        {
+          error: `Unauthorized: Feedback submissions are only allowed from ${project.domain}. Localhost submissions are not allowed!`,
+        },
+        { status: 403 },
+      );
+    }
+
+    if (project.domain !== requestDomain) {
+      return NextResponse.json(
+        {
+          error: `Unauthorized: Feedback submissions are only allowed from ${project.domain}!`,
+        },
         { status: 403 },
       );
     }
