@@ -17,6 +17,23 @@ const feedbackSchema = z.object({
   feedback: z.string(),
 });
 
+function isSubdomainOf(subdomain: string, domain: string): boolean {
+  const subdomainParts = subdomain.split('.').reverse();
+  const domainParts = domain.split('.').reverse();
+
+  if (subdomainParts.length < domainParts.length) {
+    return false;
+  }
+
+  for (let i = 0; i < domainParts.length; i++) {
+    if (domainParts[i] !== subdomainParts[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -63,10 +80,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (project.domain !== requestDomain) {
+    if (!isSubdomainOf(requestDomain, project.domain)) {
       return NextResponse.json(
         {
-          error: `Unauthorized: Feedback submissions are only allowed from ${project.domain}!`,
+          error: `Unauthorized: Feedback submissions are only allowed from ${project.domain} and its subdomains.`,
         },
         { status: 403 },
       );
