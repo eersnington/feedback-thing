@@ -180,7 +180,7 @@ const PricingPage: React.FC = () => {
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-lg">
+                <AccordionTrigger className="text-left text-lg">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-base">
