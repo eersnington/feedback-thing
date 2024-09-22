@@ -21,6 +21,7 @@ import Link from "next/link";
 interface PricingTierProps {
   name: string;
   price: string | number;
+  billed: string;
   features: string[];
   isPopular?: boolean;
 }
@@ -29,6 +30,7 @@ const PricingTier: React.FC<PricingTierProps> = ({
   name,
   price,
   features,
+  billed,
   isPopular = false,
 }) => {
   return (
@@ -44,7 +46,7 @@ const PricingTier: React.FC<PricingTierProps> = ({
         <CardTitle>{name}</CardTitle>
         <CardDescription>
           <span className="text-3xl font-bold">${price}</span>
-          {price !== "Free" && <span className="text-gray-500">/month</span>}
+          {price !== "Free" && <span className="text-gray-500">/{billed}</span>}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
@@ -76,6 +78,7 @@ const PricingPage: React.FC = () => {
     {
       name: "Free",
       price: 0,
+      billed: "forever",
       features: [
         "2 domains",
         "20 feedback submissions/month",
@@ -85,6 +88,7 @@ const PricingPage: React.FC = () => {
     {
       name: "Pro",
       price: 15,
+      billed: "month",
       features: [
         "Unlimited domains",
         "Unlimited feedback submissions",
@@ -95,6 +99,7 @@ const PricingPage: React.FC = () => {
     {
       name: "Pro (Yearly)",
       price: "150",
+      billed: "year",
       features: [
         "All the Pro Plan features",
         "Billed annually",
@@ -107,7 +112,7 @@ const PricingPage: React.FC = () => {
     {
       question: "How does the Free tier work?",
       answer:
-        "Our Free tier allows you to use FeedbackThing on one domain with up to 50 feedback reports and 10 bug reports per month. It's a great way to get started and see how FeedbackThing can improve your product.",
+        "Our Free tier allows you to use add FeedbackThing widget onto 2 projects, and lets you collect 20 feedback submissions per month. It's a great way to get started and see how FeedbackThing can improve your product.",
     },
     {
       question: "Can I upgrade from Free to Pro at any time?",
