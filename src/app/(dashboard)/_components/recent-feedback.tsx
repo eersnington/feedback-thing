@@ -1,7 +1,6 @@
-// app/(dashboard)/_components/recent-feedback.tsx
 import { db } from "@/server/db";
-import { feedbackItems, forms, projects } from "@/server/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { feedbackItems, forms, projects, users } from "@/server/db/schema";
+import { desc, eq, and } from "drizzle-orm";
 import {
   Table,
   TableBody,
@@ -15,6 +14,7 @@ import { MessageSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { currentUser } from "@clerk/nextjs/server";
 
 type FeedbackType = "feature" | "bug" | "question" | "other";
 
@@ -31,7 +31,7 @@ const feedbackTypes: FeedbackTypeOption[] = [
   { value: "other", label: "Other", color: "bg-teal-400" },
 ];
 
-async function getRecentFeedback() {
+async function getRecentFeedback(userId: string) {
   return db
     .select({
       id: feedbackItems.id,
@@ -45,12 +45,23 @@ async function getRecentFeedback() {
     .from(feedbackItems)
     .innerJoin(forms, eq(feedbackItems.formId, forms.id))
     .innerJoin(projects, eq(forms.projectId, projects.id))
+    .innerJoin(users, eq(projects.userId, users.id))
+    .where(eq(users.id, userId))
     .orderBy(desc(feedbackItems.createdAt))
     .limit(5);
 }
 
 export default async function RecentFeedbackTable() {
-  const recentFeedback = await getRecentFeedback();
+  const user = await currentUser();
+  if (!user) return null;
+
+  const userId = user.id;
+
+  if (!userId) {
+    return <div>Please log in to view your recent feedback.</div>;
+  }
+
+  const recentFeedback = await getRecentFeedback(userId);
 
   if (recentFeedback.length === 0) {
     return (
@@ -67,7 +78,7 @@ export default async function RecentFeedbackTable() {
             <div className="mt-6">
               <Link href="/dashboard/projects">
                 <Button>
-                  <Plus className="mr-2 w-4 h-4" /> Add a Project
+                  <Plus className="mr-2 h-4 w-4" /> Add a Project
                 </Button>
               </Link>
             </div>

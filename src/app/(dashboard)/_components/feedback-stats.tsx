@@ -1,26 +1,33 @@
-// app/(dashboard)/_components/feedback-stats.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, Bug, BarChart, FolderPlus } from "lucide-react";
 import { db } from "@/server/db";
-import { feedbackItems } from "@/server/db/schema";
-import { sql } from "drizzle-orm";
+import { feedbackItems, forms, projects } from "@/server/db/schema";
+import { sql, eq } from "drizzle-orm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { currentUser } from "@clerk/nextjs/server";
 
-async function getFeedbackStats() {
+async function getFeedbackStats(userId: string) {
   const stats = await db
     .select({
       totalFeedback: sql<number>`count(*)`,
-      bugReports: sql<number>`sum(case when type = 'bug' then 1 else 0 end)`,
-      avgRating: sql<number>`avg(rating)`,
+      bugReports: sql<number>`sum(case when ${feedbackItems.type} = 'bug' then 1 else 0 end)`,
+      avgRating: sql<number>`avg(${feedbackItems.rating})`,
     })
-    .from(feedbackItems);
+    .from(feedbackItems)
+    .innerJoin(forms, eq(feedbackItems.formId, forms.id))
+    .innerJoin(projects, eq(forms.projectId, projects.id))
+    .where(eq(projects.userId, userId));
 
   return stats[0];
 }
 
 export default async function FeedbackStats() {
-  const stats = await getFeedbackStats();
+  const user = await currentUser();
+  if (!user) return null;
+
+  const userId = user.id;
+  const stats = await getFeedbackStats(userId);
 
   if (!stats || stats.totalFeedback === 0) {
     return (
