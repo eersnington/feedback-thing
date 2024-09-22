@@ -28,6 +28,10 @@ const config = {
         protocol: "https",
         hostname: "feedback-thing.vercel.app",
       },
+      {
+        protocol: "https",
+        hostname: "d3bs5f30s2su7d.cloudfront.net",
+      },
     ],
   },
   async headers() {
