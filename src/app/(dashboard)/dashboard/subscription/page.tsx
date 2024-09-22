@@ -305,7 +305,7 @@ export default function SubscriptionsPage() {
             "Custom Branding (releasing Oct)",
           ]}
           buttonText="Upgrade"
-          onUpgrade={() => handleUpgrade("pri_01j7p0kxpydd5zsfr231f21d9p")}
+          onUpgrade={() => handleUpgrade("pri_01j7e2pjpgmztxzxr7jc2m4vdj")} // prod price ID
           isCurrentPlan={subscriptionData?.plan === "Pro"}
         />
         <SubscriptionCard
@@ -318,7 +318,7 @@ export default function SubscriptionsPage() {
             "Limits reset every month",
           ]}
           buttonText="Upgrade"
-          onUpgrade={() => handleUpgrade("pri_01j7p0mc65s6hyzz4t58xexrfq")}
+          onUpgrade={() => handleUpgrade("pri_01j7e2r225h8hwk50dmq5fryb5")} // prod price ID
           isCurrentPlan={subscriptionData?.plan === "Pro"}
         />
       </div>
