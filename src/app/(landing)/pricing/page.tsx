@@ -169,7 +169,7 @@ const PricingPage: React.FC = () => {
             recommendation.
           </p>
           <Button className="bg-violet-600 hover:bg-violet-700" asChild>
-            <Link href="mailto:sreeaadhi07@icloud.com">Talk to Sales</Link>
+            <Link href="mailto:team@feedbackthing.pro">Talk to Sales</Link>
           </Button>
         </div>
 

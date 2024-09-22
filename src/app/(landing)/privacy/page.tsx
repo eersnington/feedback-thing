@@ -167,7 +167,7 @@ export default function PrivacyPolicy() {
             If you have any questions about this Privacy Policy, please contact
             us:
           </p>
-          <p className="mb-4">By email: sreeaadhi07@icloud.com</p>
+          <p className="mb-4">By email: support@feedbackthing.pro</p>
           <p className="mb-4">
             FeedbackThing is represented by Sree Narayanan (x.com/eersnington).
           </p>

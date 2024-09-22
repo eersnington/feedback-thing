@@ -12,9 +12,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
+import { changelogs } from "../dashboard/changelogs/_changelogs/logs";
 
 function UserAvatar() {
   const { user } = useUser();
@@ -82,6 +90,61 @@ function UserMenuWithSuspense() {
   );
 }
 
+export function ChangelogNotificationButton() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/dashboard/changelogs");
+  };
+
+  const recentChangelogs = changelogs.slice(0, 3); // Show only the 3 most recent changelogs
+
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          onClick={handleClick}
+        >
+          <Bell className="h-5 w-5" />
+          <span className="sr-only">Changelog notifications</span>
+          <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-500"></span>
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent
+        className="w-80 rounded-xl border-2 border-gray-200 shadow-lg dark:border-gray-700"
+        side="bottom"
+        align="end"
+        sideOffset={5}
+        alignOffset={-15}
+      >
+        <div className="space-y-4">
+          {recentChangelogs.map((log) => (
+            <div
+              key={log.version}
+              className="space-y-1 rounded-md bg-slate-100 p-2"
+            >
+              <h4 className="text-sm font-semibold">Version {log.version}</h4>
+              <p className="text-sm text-muted-foreground">{log.date}</p>
+              <p className="line-clamp-2 text-sm">{log.message}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex justify-center">
+          <Link
+            href="/dashboard/changelogs"
+            className="text-sm font-medium text-blue-400 text-primary hover:underline"
+          >
+            View all changelogs
+          </Link>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  );
+}
+
 export function Header() {
   const { isLoaded, isSignedIn } = useUser();
 
@@ -95,11 +158,7 @@ export function Header() {
         Dashboard
       </h1>
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="h-5 w-5" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
-          <span className="sr-only">Notifications</span>
-        </Button>
+        <ChangelogNotificationButton />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">

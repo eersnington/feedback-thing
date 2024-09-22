@@ -37,7 +37,7 @@ export function Footer() {
           </Link>
           <Link
             className="text-sm text-gray-500 hover:text-gray-900"
-            href="mailto:sreeaadhi07@icloud.com"
+            href="mailto:support@feedbackthing.pro"
           >
             Contact Us
           </Link>

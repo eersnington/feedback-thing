@@ -193,7 +193,7 @@ export default function TermsOfService() {
           <p className="mb-4">
             If you have any questions about these Terms, please contact us at:
           </p>
-          <p className="mb-4">Email: sreeaadhi07@icloud.com</p>
+          <p className="mb-4">Email: support@feedbackthing.pro</p>
           <p className="mb-4">
             FeedbackThing is represented by Sree Narayanan (x.com/eersnington).
           </p>
